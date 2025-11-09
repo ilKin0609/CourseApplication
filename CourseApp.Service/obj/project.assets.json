@@ -1,11 +1,48 @@
 {
   "version": 3,
   "targets": {
-    "net8.0": {}
+    "net8.0": {
+      "CourseApp.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/CourseApp.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CourseApp.Domain.dll": {}
+        }
+      },
+      "CourseApp.Repository/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "CourseApp.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/CourseApp.Repository.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CourseApp.Repository.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "CourseApp.Domain/1.0.0": {
+      "type": "project",
+      "path": "../CourseApp.Domain/CourseApp.Domain.csproj",
+      "msbuildProject": "../CourseApp.Domain/CourseApp.Domain.csproj"
+    },
+    "CourseApp.Repository/1.0.0": {
+      "type": "project",
+      "path": "../CourseApp.Repository/CourseApp.Repository.csproj",
+      "msbuildProject": "../CourseApp.Repository/CourseApp.Repository.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net8.0": []
+    "net8.0": [
+      "CourseApp.Repository >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\immmd\\.nuget\\packages\\": {},
@@ -38,7 +75,11 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\immmd\\source\\repos\\CourseApp\\CourseApp.Repository\\CourseApp.Repository.csproj": {
+              "projectPath": "C:\\Users\\immmd\\source\\repos\\CourseApp\\CourseApp.Repository\\CourseApp.Repository.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
