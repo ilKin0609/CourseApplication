@@ -43,5 +43,6 @@ public class GroupRepository:IGroupRepository
         group.Name = entity.Name;
         group.TeacherName = entity.TeacherName;
         group.RoomNumber = entity.RoomNumber;
+        group.Capacity = entity.Capacity;
     }
 }

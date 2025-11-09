@@ -10,6 +10,7 @@ namespace CourseApp.Service.Services.Implementations;
 public class StudentService : IStudentService
 {
     private readonly IStudentRepository _studentRepository;
+    int count = 0;
     public StudentService(IStudentRepository studentRepository)
     {
         _studentRepository = studentRepository;
@@ -27,8 +28,12 @@ public class StudentService : IStudentService
             if (group is null)
                 throw new NotFoundException("Group not found!");
 
+            if (count >= group.Capacity)
+                throw new ValidTypeException("Group is full!");
+
             student.StuGroup = group;
             _studentRepository.Create(student);
+            count++;
         }
         catch (Exception ex)
         {
@@ -46,6 +51,7 @@ public class StudentService : IStudentService
                 throw new NotFoundException("Student not found");
 
             _studentRepository.Delete(id);
+            count--;
         }
         catch (Exception ex)
         {
