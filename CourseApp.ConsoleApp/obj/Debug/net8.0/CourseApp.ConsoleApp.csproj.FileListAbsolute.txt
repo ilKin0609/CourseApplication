@@ -1,0 +1,14 @@
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\bin\Debug\net8.0\CourseApp.ConsoleApp.exe
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\bin\Debug\net8.0\CourseApp.ConsoleApp.deps.json
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\bin\Debug\net8.0\CourseApp.ConsoleApp.runtimeconfig.json
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\bin\Debug\net8.0\CourseApp.ConsoleApp.dll
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\bin\Debug\net8.0\CourseApp.ConsoleApp.pdb
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\obj\Debug\net8.0\CourseApp.ConsoleApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\obj\Debug\net8.0\CourseApp.ConsoleApp.AssemblyInfoInputs.cache
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\obj\Debug\net8.0\CourseApp.ConsoleApp.AssemblyInfo.cs
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\obj\Debug\net8.0\CourseApp.ConsoleApp.csproj.CoreCompileInputs.cache
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\obj\Debug\net8.0\CourseApp.ConsoleApp.dll
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\obj\Debug\net8.0\refint\CourseApp.ConsoleApp.dll
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\obj\Debug\net8.0\CourseApp.ConsoleApp.pdb
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\obj\Debug\net8.0\CourseApp.ConsoleApp.genruntimeconfig.cache
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\obj\Debug\net8.0\ref\CourseApp.ConsoleApp.dll
