@@ -174,8 +174,10 @@ public class StudentService : IStudentService
     public void Update(int id, Student student)
     {
         Student exist = CourseDbContext.Students.Find(St => St.Id == id);
+        
         try
         {
+            
             if (exist is null)
                 throw new NotFoundException("Student not found");
 

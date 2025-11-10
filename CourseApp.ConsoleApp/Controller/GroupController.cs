@@ -3,18 +3,21 @@ using CourseApp.Repository.Repositories.Implementations;
 using CourseApp.Repository.Repositories.Interfaces;
 using CourseApp.Service.Services.Helpers;
 using CourseApp.Service.Services.Implementations;
+using System.Text.RegularExpressions;
 
 namespace CourseApp.ConsoleApp.Controller;
 
 public class GroupController
 {
-    private GroupService _groupService { get; set; }
+    private GroupService _groupService { get; }
     public GroupController(GroupService groupService)
     {
         _groupService = groupService;
     }
     public void Create()
     {
+        Regex regex = new Regex("^[A-Za-zƏəÖöÜüİıŞşÇçĞğ]+$");
+
         CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group name: ");
     GroupName: string groupName = Console.ReadLine();
         if (string.IsNullOrWhiteSpace(groupName))
@@ -25,7 +28,7 @@ public class GroupController
 
         CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group's teacher: ");
     TeacherName: string teacher = Console.ReadLine();
-        if (string.IsNullOrWhiteSpace(teacher))
+        if (string.IsNullOrWhiteSpace(teacher) && regex.IsMatch(teacher))
         {
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of teacher name!");
             goto TeacherName;
@@ -40,7 +43,7 @@ public class GroupController
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of room number!");
             goto Room;
         }
-        if (roomNum <= 0)
+        if (roomNum < 0)
         {
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Room number must be greater than 0!");
             goto Room;
@@ -55,13 +58,13 @@ public class GroupController
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of capacity!");
             goto Capacity;
         }
-        if (capacityNum <= 0)
+        if (capacityNum < 0)
         {
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Capacity must be greater than 0!");
             goto Capacity;
         }
 
-        Group group = new()
+        Domain.Models.Group group = new()
         {
             Name = groupName,
             TeacherName = teacher,
@@ -75,6 +78,8 @@ public class GroupController
 
     public void Update()
     {
+        Regex regex = new Regex("^[A-Za-zƏəÖöÜüİıŞşÇçĞğ]+$");
+
         CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group id: ");
     Id: string id = Console.ReadLine();
         int idNum;
@@ -95,8 +100,14 @@ public class GroupController
         string groupName = Console.ReadLine();
 
 
+
         CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new group's teacher: ");
-        string teacherName = Console.ReadLine();
+    GroupTeacherName: string teacherName = Console.ReadLine();
+        if (!regex.IsMatch(teacherName))
+        {
+            CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of teacher name!");
+            goto GroupTeacherName;
+        }
 
         CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new group's room: ");
     Room: string room = Console.ReadLine();
@@ -128,7 +139,7 @@ public class GroupController
             goto Capacity;
         }
 
-        Group group = new()
+        Domain.Models.Group group = new()
         {
             Name = groupName,
             TeacherName = teacherName,
@@ -195,15 +206,16 @@ public class GroupController
 
     public void GetByTeacherName()
     {
+        Regex regex = new Regex("^[A-Za-zƏəÖöÜüİıŞşÇçĞğ]+$");
         CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group's teacher: ");
     TeacherName: string teacher = Console.ReadLine();
-        if (string.IsNullOrWhiteSpace(teacher))
+        if (string.IsNullOrWhiteSpace(teacher) && regex.IsMatch(teacher))
         {
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of teacher name!");
             goto TeacherName;
         }
 
-        List<Group> groups = _groupService.GetAllByTeacher(teacher);
+        List<Domain.Models.Group> groups = _groupService.GetAllByTeacher(teacher);
 
         foreach (var group in groups)
         {
@@ -228,7 +240,7 @@ public class GroupController
             goto Room;
         }
 
-        List<Group> groups = _groupService.GetAllByRoom(roomNum);
+        List<Domain.Models.Group> groups = _groupService.GetAllByRoom(roomNum);
 
         foreach (var group in groups)
         {

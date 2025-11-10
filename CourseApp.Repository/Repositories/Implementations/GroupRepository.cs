@@ -40,14 +40,34 @@ public class GroupRepository : IGroupRepository
     public void Update(int id, Group entity)
     {
         Group group = CourseDbContext.Groups.Find(St => St.Id == id);
-
+        int count = 0;
         if (!string.IsNullOrWhiteSpace(entity.Name))
+        {
             group.Name = entity.Name;
+            count++;
+        }
 
         if (!string.IsNullOrWhiteSpace(entity.TeacherName))
+        {
             group.TeacherName = entity.TeacherName;
+            count++;
+        }
 
-        group.RoomNumber = entity.RoomNumber;
-        group.Capacity = entity.Capacity;
+        if (entity.RoomNumber != 0)
+        {
+            group.RoomNumber = entity.RoomNumber;
+            count++;
+        }
+
+        if (entity.Capacity != 0)
+        {
+            group.Capacity = entity.Capacity;
+            count++;
+        }
+        if(count > 0)
+        {
+            group.UpdatedAt = DateTime.Now;
+            count = 0;
+        }
     }
 }

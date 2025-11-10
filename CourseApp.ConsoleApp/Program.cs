@@ -32,7 +32,10 @@ GroupRepository groupRepository = new();
 GroupService groupService = new(groupRepository);
 GroupController groupController = new(groupService);
 
-//StudentController studentController = new();
+
+StudentRepository stuRepository = new();
+StudentService stuService = new(stuRepository);
+StudentController studentController = new(stuService);
 
 while (true)
 {
@@ -72,10 +75,53 @@ Input: string input = Console.ReadLine();
             case (int)GroupMethods.GetByRoomNumber:
                 groupController.GetByRoomNumber();
                 break;
+
+            case (int)StudentMethods.Create:
+                studentController.Create();
+                break;
+
+            case (int)StudentMethods.Update:
+                studentController.Update();
+                break;
+
+            case (int)StudentMethods.Delete:
+                studentController.Delete();
+                break;
+
+            case (int)StudentMethods.GetAll:
+                studentController.GetAll();
+                break;
+
+            case (int)StudentMethods.GetById:
+                studentController.GetById();
+                break;
+
+            case (int)StudentMethods.GetByAge:
+                studentController.GetByAge();
+                break;
+
+            case (int)StudentMethods.GetByGroupId:
+                studentController.GetByGroupId();
+                break;
+
+            case (int)StudentMethods.GetByGroupName:
+                studentController.GetByGroupName();
+                break;
+
+            case (int)StudentMethods.GetStudentNameOrSurname:
+                studentController.GetStudentNameOrSurname();
+                break;
+
+            default:
+                CustomHelper.WriteLine(ConsoleColor.DarkGreen, "Exit. Please select between: (1-16)");
+                return;
         }
     }
     else
+    {
         CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of selection!");
+        goto Input;
+    }
 }
 
 
