@@ -54,7 +54,7 @@ public class GroupService : IGroupService
         List<Group> groups = _groupRepository.GetAll();
         try
         {
-            if (groups is null)
+            if (groups.Count is 0)
                 throw new NotFoundException("Groups not found!");
         }
         catch (Exception ex)
@@ -69,7 +69,7 @@ public class GroupService : IGroupService
         List<Group> groups = _groupRepository.GetAll(G => G.RoomNumber == roomNumber);
         try
         {
-            if (groups is null)
+            if (groups.Count is 0)
                 throw new NotFoundException("Groups not found!");
         }
         catch (Exception ex)
@@ -81,10 +81,10 @@ public class GroupService : IGroupService
 
     public List<Group> GetAllByTeacher(string teacherName)
     {
-        List<Group> groups = _groupRepository.GetAll(G => G.TeacherName.Trim().ToLower() == teacherName.Trim().ToLower());
+        List<Group> groups = _groupRepository.GetAll(G => (G.TeacherName ?? string.Empty).ToLower().Trim().StartsWith(teacherName.ToLower().Trim()));
         try
         {
-            if (groups is null)
+            if (groups.Count is 0)
                 throw new NotFoundException("Groups not found!");
         }
         catch (Exception ex)
@@ -101,7 +101,7 @@ public class GroupService : IGroupService
         {
             if (group is null)
                 throw new NotFoundException("Group not found");
-            
+
         }
         catch (Exception ex)
         {
@@ -112,8 +112,8 @@ public class GroupService : IGroupService
 
     public void Update(int id, Group group)
     {
-        Group exist = CourseDbContext.Groups.Find(G=>G.Id==id);
-        Group existName=CourseDbContext.Groups.Find(G=>G.Name.Trim().ToLower()==group.Name.Trim().ToLower());
+        Group exist = CourseDbContext.Groups.Find(G => G.Id == id);
+        Group existName = CourseDbContext.Groups.Find(G => G.Name.Trim().ToLower() == group.Name.Trim().ToLower());
 
         try
         {
@@ -123,10 +123,11 @@ public class GroupService : IGroupService
             if (existName is not null)
                 throw new DuplicateException("Group already exist");
 
-            _groupRepository.Update(id, exist);
+
+            _groupRepository.Update(id, group);
 
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
         }

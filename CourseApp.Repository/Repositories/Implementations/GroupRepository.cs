@@ -4,7 +4,7 @@ using CourseApp.Repository.Repositories.Interfaces;
 
 namespace CourseApp.Repository.Repositories.Implementations;
 
-public class GroupRepository:IGroupRepository
+public class GroupRepository : IGroupRepository
 {
     public void Create(Group entity)
     {
@@ -40,8 +40,13 @@ public class GroupRepository:IGroupRepository
     public void Update(int id, Group entity)
     {
         Group group = CourseDbContext.Groups.Find(St => St.Id == id);
-        group.Name = entity.Name;
-        group.TeacherName = entity.TeacherName;
+
+        if (!string.IsNullOrWhiteSpace(entity.Name))
+            group.Name = entity.Name;
+
+        if (!string.IsNullOrWhiteSpace(entity.TeacherName))
+            group.TeacherName = entity.TeacherName;
+
         group.RoomNumber = entity.RoomNumber;
         group.Capacity = entity.Capacity;
     }

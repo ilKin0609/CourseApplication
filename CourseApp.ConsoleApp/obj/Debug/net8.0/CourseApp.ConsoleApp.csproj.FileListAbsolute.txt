@@ -12,3 +12,12 @@ C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\obj\Debug\net8.0\refi
 C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\obj\Debug\net8.0\CourseApp.ConsoleApp.pdb
 C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\obj\Debug\net8.0\CourseApp.ConsoleApp.genruntimeconfig.cache
 C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\obj\Debug\net8.0\ref\CourseApp.ConsoleApp.dll
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\bin\Debug\net8.0\CourseApp.Domain.dll
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\bin\Debug\net8.0\CourseApp.Repository.dll
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\bin\Debug\net8.0\CourseApp.Service.dll
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\bin\Debug\net8.0\CourseApp.Service.pdb
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\bin\Debug\net8.0\CourseApp.Domain.pdb
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\bin\Debug\net8.0\CourseApp.Repository.pdb
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\obj\Debug\net8.0\CourseApp.ConsoleApp.csproj.AssemblyReference.cache
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\obj\Debug\net8.0\CourseApp.ConsoleApp.sourcelink.json
+C:\Users\immmd\source\repos\CourseApp\CourseApp.ConsoleApp\obj\Debug\net8.0\CourseAp.56DE2C74.Up2Date

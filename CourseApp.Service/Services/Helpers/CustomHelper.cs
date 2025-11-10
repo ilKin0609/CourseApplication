@@ -13,4 +13,12 @@ public static class CustomHelper
         Regex regex = new Regex("^[A-Za-zƏəÖöÜüİıŞşÇçĞğ]+$");
         return regex.IsMatch(value);
     }
+
+    public static void WriteLine(ConsoleColor color, string value)
+    {
+        var oldColor = Console.ForegroundColor; 
+        Console.ForegroundColor = color;
+        Console.WriteLine(value);
+        Console.ForegroundColor = oldColor;
+    }
 }

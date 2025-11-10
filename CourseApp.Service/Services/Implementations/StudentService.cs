@@ -2,7 +2,6 @@
 using CourseApp.Repository.Context;
 using CourseApp.Repository.Repositories.Interfaces;
 using CourseApp.Service.Exceptions;
-using CourseApp.Service.Services.Helpers;
 using CourseApp.Service.Services.Interfaces;
 
 namespace CourseApp.Service.Services.Implementations;
@@ -10,7 +9,7 @@ namespace CourseApp.Service.Services.Implementations;
 public class StudentService : IStudentService
 {
     private readonly IStudentRepository _studentRepository;
-    int count = 0;
+
     public StudentService(IStudentRepository studentRepository)
     {
         _studentRepository = studentRepository;
@@ -24,16 +23,16 @@ public class StudentService : IStudentService
                 throw new NullException("Student cannot be null!");
 
             Group group = CourseDbContext.Groups.Find(G => G.Name.Trim().ToLower() == GroupName.Trim().ToLower());
-
             if (group is null)
                 throw new NotFoundException("Group not found!");
 
-            if (count >= group.Capacity)
+
+            if (group.Capacity <= 0)
                 throw new ValidTypeException("Group is full!");
 
             student.StuGroup = group;
             _studentRepository.Create(student);
-            count++;
+            group.Capacity--;
         }
         catch (Exception ex)
         {
@@ -51,7 +50,7 @@ public class StudentService : IStudentService
                 throw new NotFoundException("Student not found");
 
             _studentRepository.Delete(id);
-            count--;
+            student.StuGroup.Capacity++;
         }
         catch (Exception ex)
         {
@@ -64,7 +63,7 @@ public class StudentService : IStudentService
         List<Student> students = _studentRepository.GetAll();
         try
         {
-            if (students is null)
+            if (students.Count is 0)
                 throw new NotFoundException("Students not found!");
         }
         catch (Exception ex)
@@ -94,7 +93,7 @@ public class StudentService : IStudentService
         List<Student> students = _studentRepository.GetAll(St => St.Age == age);
         try
         {
-            if (students is null)
+            if (students.Count is 0)
                 throw new NotFoundException("Students not found!");
         }
         catch (Exception ex)
@@ -109,7 +108,7 @@ public class StudentService : IStudentService
         List<Student> students = _studentRepository.GetAll(St => St.StuGroup.Id == groupId);
         try
         {
-            if (students is null)
+            if (students.Count is 0)
                 throw new NotFoundException("Students not found!");
         }
         catch (Exception ex)
@@ -121,10 +120,10 @@ public class StudentService : IStudentService
 
     public List<Student> GetStudentsByGroupName(string groupName)
     {
-        List<Student> students = _studentRepository.GetAll(St => St.StuGroup.Name.Trim().ToLower() == groupName.Trim().ToLower());
+        List<Student> students = _studentRepository.GetAll(St => St.StuGroup.Name.ToLower().Trim().StartsWith(groupName.Trim().ToLower()));
         try
         {
-            if (students is null)
+            if (students.Count is 0)
                 throw new NotFoundException("Students not found!");
         }
         catch (Exception ex)
@@ -134,34 +133,34 @@ public class StudentService : IStudentService
         return students;
     }
 
-    public List<Student> GetStudentsByNameOrSurname(string? name, string? surname)
+    public List<Student> GetStudentsByNameOrSurname(string? name = null, string? surname =null)
     {
         List<Student> students = new List<Student>();
         try
         {
-            if (name is not null && surname is not null)
+            if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(surname))
             {
                 students = _studentRepository.GetAll(St => St.Name.Trim().ToLower() == name.Trim()?.ToLower() &&
                 St.Surname.Trim().ToLower() == surname.Trim()?.ToLower());
 
 
             }
-            else if (name is not null && surname is null)
+            else if (!string.IsNullOrWhiteSpace(name) && string.IsNullOrWhiteSpace(surname))
             {
-                students = _studentRepository.GetAll(St => St.Name.Trim().ToLower() == name.Trim()?.ToLower());
+                students = _studentRepository.GetAll(St => St.Name.ToLower().Trim().StartsWith(name.Trim().ToLower()));
 
 
             }
-            else if (name is null && surname is not null)
+            else if (string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(surname))
             {
-                students = _studentRepository.GetAll(St => St.Surname.Trim().ToLower() == surname.Trim()?.ToLower());
+                students = _studentRepository.GetAll(St => St.Surname.ToLower().Trim().StartsWith(surname.Trim().ToLower()));
             }
             else
             {
                 students = _studentRepository.GetAll();
             }
 
-            if (students is null)
+            if (students.Count is 0)
                 throw new NotFoundException("Student not found");
         }
         catch (Exception ex)
@@ -183,7 +182,7 @@ public class StudentService : IStudentService
             if (student is null)
                 throw new NullException("Student cannot be null");
 
-            _studentRepository.Update(id,exist);
+            _studentRepository.Update(id, student);
 
         }
         catch (Exception ex)

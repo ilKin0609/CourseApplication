@@ -4,8 +4,8 @@ namespace CourseApp.Domain.Models;
 
 public class Group : BaseEntity
 {
-    public string Name { get; set; }
-    public string TeacherName { get; set; }
+    public string Name { get; set; } = null!;
+    public string TeacherName { get; set; } = null!;
     public int RoomNumber { get; set; }
     public int Capacity { get; set; }
 

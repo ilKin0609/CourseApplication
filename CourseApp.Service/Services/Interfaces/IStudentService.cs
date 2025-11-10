@@ -12,6 +12,6 @@ public interface IStudentService
     List<Student> GetStudentsByAge(int age);
     List<Student> GetStudentsByGroupId(int groupId);
     List<Student> GetStudentsByGroupName(string groupName);
-    List<Student> GetStudentsByNameOrSurname(string? name, string? surname);
+    List<Student> GetStudentsByNameOrSurname(string? name=null, string? surname = null);
     List<Student> GetAll();
 }
