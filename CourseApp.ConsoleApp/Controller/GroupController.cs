@@ -17,10 +17,11 @@ public class GroupController
     public void Create()
     {
         Regex regex = new Regex("^[A-Za-zƏəÖöÜüİıŞşÇçĞğ]+$");
+        Regex regex1 = new Regex(@"^[a-zA-Z0-9\s]+$");
 
         CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group name: ");
     GroupName: string groupName = Console.ReadLine();
-        if (string.IsNullOrWhiteSpace(groupName))
+        if (string.IsNullOrWhiteSpace(groupName) || !regex1.IsMatch(groupName))
         {
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of group name!");
             goto GroupName;
@@ -28,7 +29,7 @@ public class GroupController
 
         CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group's teacher: ");
     TeacherName: string teacher = Console.ReadLine();
-        if (string.IsNullOrWhiteSpace(teacher) && regex.IsMatch(teacher))
+        if (string.IsNullOrWhiteSpace(teacher) || !regex.IsMatch(teacher))
         {
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of teacher name!");
             goto TeacherName;
@@ -78,8 +79,9 @@ public class GroupController
 
     public void Update()
     {
-        Regex regex = new Regex("^[A-Za-zƏəÖöÜüİıŞşÇçĞğ]+$");
+        Regex regex = new Regex("^[A-Za-zƏəÖöÜüİıŞşÇçĞğ]*$");
 
+        Regex regex1 = new Regex(@"^[a-zA-Z0-9\s]*$");
         CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group id: ");
     Id: string id = Console.ReadLine();
         int idNum;
@@ -97,8 +99,12 @@ public class GroupController
 
 
         CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new group name: ");
-        string groupName = Console.ReadLine();
-
+    GroupName: string groupName = Console.ReadLine();
+        if (!regex1.IsMatch(groupName))
+        {
+            CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of group name!");
+            goto GroupName;
+        }
 
 
         CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new group's teacher: ");

@@ -4,29 +4,6 @@ using CourseApp.Repository.Repositories.Implementations;
 using CourseApp.Service.Services.Helpers;
 using CourseApp.Service.Services.Implementations;
 
-CustomHelper.WriteLine(ConsoleColor.Cyan, "Select option: ");
-
-CustomHelper.WriteLine(ConsoleColor.DarkYellow, "Group methods: ");
-
-CustomHelper.WriteLine(ConsoleColor.Cyan, "1-Create group");
-CustomHelper.WriteLine(ConsoleColor.Cyan, "2-Update group");
-CustomHelper.WriteLine(ConsoleColor.Cyan, "3-Delete group");
-CustomHelper.WriteLine(ConsoleColor.Cyan, "4-GetAll groups");
-CustomHelper.WriteLine(ConsoleColor.Cyan, "5-GetById group");
-CustomHelper.WriteLine(ConsoleColor.Cyan, "6-GetByTeacherName groups");
-CustomHelper.WriteLine(ConsoleColor.Cyan, "7-GetByRoomNumber groups");
-
-CustomHelper.WriteLine(ConsoleColor.DarkYellow, "Student methods: ");
-
-CustomHelper.WriteLine(ConsoleColor.Cyan, "8-Create student");
-CustomHelper.WriteLine(ConsoleColor.Cyan, "9-Update student");
-CustomHelper.WriteLine(ConsoleColor.Cyan, "10-Delete student");
-CustomHelper.WriteLine(ConsoleColor.Cyan, "11-GetAll students");
-CustomHelper.WriteLine(ConsoleColor.Cyan, "12-GetById student");
-CustomHelper.WriteLine(ConsoleColor.Cyan, "13-GetByAge students");
-CustomHelper.WriteLine(ConsoleColor.Cyan, "14-GetByGroupId students");
-CustomHelper.WriteLine(ConsoleColor.Cyan, "15-GetByGroupName students");
-CustomHelper.WriteLine(ConsoleColor.Cyan, "16-GetStudentNameOrSurname students");
 
 GroupRepository groupRepository = new();
 GroupService groupService = new(groupRepository);
@@ -39,6 +16,23 @@ StudentController studentController = new(stuService);
 
 while (true)
 {
+
+    CustomHelper.WriteLine(ConsoleColor.Cyan, "Select option: ");
+
+    CustomHelper.WriteLine(ConsoleColor.DarkYellow, "Group and Student methods: ");
+
+    CustomHelper.WriteLine(ConsoleColor.Cyan, "1-Create group                8-Create student");
+    CustomHelper.WriteLine(ConsoleColor.Cyan, "2-Update group                9-Update student");
+    CustomHelper.WriteLine(ConsoleColor.Cyan, "3-Delete group                10-Delete student");
+    CustomHelper.WriteLine(ConsoleColor.Cyan, "4-GetAll groups               11-GetAll students");
+    CustomHelper.WriteLine(ConsoleColor.Cyan, "5-GetById group               12-GetById student");
+    CustomHelper.WriteLine(ConsoleColor.Cyan, "6-GetByTeacherName groups     13-GetByAge students");
+    CustomHelper.WriteLine(ConsoleColor.Cyan, "7-GetByRoomNumber groups      14-GetByGroupId students");
+
+    
+    CustomHelper.WriteLine(ConsoleColor.Cyan, "                              15-GetByGroupName students");
+    CustomHelper.WriteLine(ConsoleColor.Cyan, "                              16-GetStudentNameOrSurname students");
+
 Input: string input = Console.ReadLine();
     int number;
 

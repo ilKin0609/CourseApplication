@@ -19,7 +19,7 @@ public class StudentController
         Regex regex = new Regex("^[A-Za-zƏəÖöÜüİıŞşÇçĞğ]+$");
         CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter student name: ");
     StuName: string studentName = Console.ReadLine();
-        if (string.IsNullOrWhiteSpace(studentName) && regex.IsMatch(studentName))
+        if (string.IsNullOrWhiteSpace(studentName) || !regex.IsMatch(studentName))
         {
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of student name!");
             goto StuName;
@@ -27,7 +27,7 @@ public class StudentController
 
         CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter student surname: ");
     StuSurname: string surname = Console.ReadLine();
-        if (string.IsNullOrWhiteSpace(surname) && regex.IsMatch(surname))
+        if (string.IsNullOrWhiteSpace(surname) || !regex.IsMatch(surname))
         {
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of student surname!");
             goto StuSurname;
