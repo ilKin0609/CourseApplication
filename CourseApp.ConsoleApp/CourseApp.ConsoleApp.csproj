@@ -8,6 +8,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\AmoungUs.wav" />
+    <None Remove="Resources\ClashOfClans.wav" />
+    <None Remove="Resources\Keloglan.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\AmoungUs.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ClashOfClans.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Keloglan.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Windows.Extensions" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CourseApp.Service\CourseApp.Service.csproj" />
   </ItemGroup>
 

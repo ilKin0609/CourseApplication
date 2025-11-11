@@ -3,6 +3,7 @@ using CourseApp.Domain.Enums;
 using CourseApp.Repository.Repositories.Implementations;
 using CourseApp.Service.Services.Helpers;
 using CourseApp.Service.Services.Implementations;
+using System.Media;
 
 
 GroupRepository groupRepository = new();
@@ -13,6 +14,8 @@ GroupController groupController = new(groupService);
 StudentRepository stuRepository = new();
 StudentService stuService = new(stuRepository);
 StudentController studentController = new(stuService);
+PlayBackgroundMusic();
+
 
 while (true)
 {
@@ -116,6 +119,23 @@ Input: string input = Console.ReadLine();
         CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of selection!");
         goto Input;
     }
+}
+
+void PlayBackgroundMusic()
+{
+    string fileName = "ClashOfClans.wav";
+    string musicPath = Path.Combine(AppContext.BaseDirectory, "Resources", fileName);
+
+    if (!File.Exists(musicPath))
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($"⚠ Musiqi faylı tapılmadı: {musicPath}");
+        Console.ResetColor();
+        return;
+    }
+
+    SoundPlayer player = new SoundPlayer(musicPath);
+    player.PlayLooping();
 }
 
 

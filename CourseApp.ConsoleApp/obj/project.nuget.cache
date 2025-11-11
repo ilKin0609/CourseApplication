@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "eIuXG2xdmYI=",
+  "dgSpecHash": "yCJvJZlle9w=",
   "success": true,
   "projectFilePath": "C:\\Users\\immmd\\source\\repos\\CourseApp\\CourseApp.ConsoleApp\\CourseApp.ConsoleApp.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\immmd\\.nuget\\packages\\system.windows.extensions\\8.0.0\\system.windows.extensions.8.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
