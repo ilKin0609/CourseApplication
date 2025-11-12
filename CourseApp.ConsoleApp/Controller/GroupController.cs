@@ -44,7 +44,7 @@ public class GroupController
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of room number!");
             goto Room;
         }
-        if (roomNum < 0)
+        if (roomNum <= 0)
         {
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Room number must be greater than 0!");
             goto Room;
@@ -59,7 +59,7 @@ public class GroupController
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of capacity!");
             goto Capacity;
         }
-        if (capacityNum < 0)
+        if (capacityNum <= 0)
         {
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Capacity must be greater than 0!");
             goto Capacity;
@@ -124,9 +124,9 @@ public class GroupController
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of room number!");
             goto Room;
         }
-        if (roomNum <= 0)
+        if (roomNum < 0)
         {
-            CustomHelper.WriteLine(ConsoleColor.DarkRed, "Room number must be greater than 0!");
+            CustomHelper.WriteLine(ConsoleColor.DarkRed, "Age must be positive!");
             goto Room;
         }
 
@@ -139,9 +139,9 @@ public class GroupController
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of capacity!");
             goto Capacity;
         }
-        if (capacityNum <= 0)
+        if (capacityNum < 0)
         {
-            CustomHelper.WriteLine(ConsoleColor.DarkRed, "Capacity must be greater than 0!");
+            CustomHelper.WriteLine(ConsoleColor.DarkRed, "Age must be positive!");
             goto Capacity;
         }
 
