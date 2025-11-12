@@ -14,7 +14,7 @@ GroupController groupController = new(groupService);
 StudentRepository stuRepository = new();
 StudentService stuService = new(stuRepository);
 StudentController studentController = new(stuService);
-PlayBackgroundMusic();
+//PlayBackgroundMusic();
 
 
 while (true)
@@ -109,9 +109,12 @@ Input: string input = Console.ReadLine();
                 studentController.GetStudentNameOrSurname();
                 break;
 
-            default:
-                CustomHelper.WriteLine(ConsoleColor.DarkGreen, "Exit. Please select between: (1-16)");
+            case 0:
+                CustomHelper.WriteLine(ConsoleColor.DarkGreen, "Exit");
                 return;
+            default:
+                CustomHelper.WriteLine(ConsoleColor.DarkGreen, "Please select between: (1-16)");
+                break;
         }
     }
     else
@@ -123,7 +126,7 @@ Input: string input = Console.ReadLine();
 
 void PlayBackgroundMusic()
 {
-    string fileName = "ClashOfClans.wav";
+    string fileName = "AmoungUs.wav";
     string musicPath = Path.Combine(AppContext.BaseDirectory, "Resources", fileName);
 
     if (!File.Exists(musicPath))

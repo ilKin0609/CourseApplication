@@ -1,7 +1,6 @@
 ﻿using CourseApp.Domain.Models;
 using CourseApp.Repository.Context;
 using CourseApp.Repository.Repositories.Interfaces;
-using System;
 
 namespace CourseApp.Repository.Repositories.Implementations;
 

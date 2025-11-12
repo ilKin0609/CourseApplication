@@ -51,7 +51,7 @@ public class StudentController
         CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group name: ");
     GroupName: string group = Console.ReadLine();
 
-        if (!string.IsNullOrWhiteSpace(group))
+        if (string.IsNullOrWhiteSpace(group))
         {
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of group name!");
             goto GroupName;
@@ -109,13 +109,13 @@ public class StudentController
         CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new student age: ");
     Age: string age = Console.ReadLine();
         int ageNum;
-        bool isConvertRoom = int.TryParse(age, out ageNum);
-        if (!isConvert)
+        bool isConvertAge = int.TryParse(age, out ageNum);
+        if (!isConvertAge)
         {
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of age!");
             goto Age;
         }
-        if (ageNum < 0)
+        if (ageNum < 5)
         {
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Age must be positive!");
             goto Age;
@@ -233,7 +233,7 @@ public class StudentController
 
         foreach (var student in students)
         {
-            Console.WriteLine($"Id: {student.Id} Name: {student.Name} Surname: {student.Surname} Age: {student.Age} Group: {student.Name}");
+            Console.WriteLine($"Id: {student.Id} Name: {student.Name} Surname: {student.Surname} Age: {student.Age} Group: {student.StuGroup.Name}");
         }
 
     }
@@ -248,11 +248,11 @@ public class StudentController
             goto GroupName;
         }
 
-        List<Student> students = _studentService.GetStudentsByNameOrSurname(groupName);
+        List<Student> students = _studentService.GetStudentsByGroupName(groupName);
 
         foreach (var student in students)
         {
-            Console.WriteLine($"Id: {student.Id} Name: {student.Name} Surname: {student.Surname} Age: {student.Age} Group: {student.Name}");
+            Console.WriteLine($"Id: {student.Id} Name: {student.Name} Surname: {student.Surname} Age: {student.Age} Group: {student.StuGroup.Name}");
         }
     }
 

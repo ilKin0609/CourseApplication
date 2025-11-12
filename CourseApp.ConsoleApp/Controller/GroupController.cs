@@ -1,8 +1,10 @@
 ﻿using CourseApp.Domain.Models;
 using CourseApp.Repository.Repositories.Implementations;
 using CourseApp.Repository.Repositories.Interfaces;
+using CourseApp.Service.Exceptions;
 using CourseApp.Service.Services.Helpers;
 using CourseApp.Service.Services.Implementations;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
 namespace CourseApp.ConsoleApp.Controller;
@@ -79,12 +81,17 @@ public class GroupController
 
     public void Update()
     {
+        CustomHelper.WriteLine(ConsoleColor.DarkCyan, "If you want to exit, write - Exit ");
         Regex regex = new Regex("^[A-Za-zƏəÖöÜüİıŞşÇçĞğ]*$");
 
         Regex regex1 = new Regex(@"^[a-zA-Z0-9\s]*$");
         CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group id: ");
     Id: string id = Console.ReadLine();
         int idNum;
+        if (id == "Exit")
+        {
+            return;
+        }
         bool isConvert = int.TryParse(id, out idNum);
         if (!isConvert)
         {
@@ -96,65 +103,83 @@ public class GroupController
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Id must be positive!");
             goto Id;
         }
-
-
-        CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new group name: ");
-    GroupName: string groupName = Console.ReadLine();
-        if (!regex1.IsMatch(groupName))
+        Domain.Models.Group groupExist = _groupService.GetById(idNum);
+        if (groupExist is null)
         {
-            CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of group name!");
-            goto GroupName;
+            CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid group id: ");
+            goto Id;
         }
-
-
-        CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new group's teacher: ");
-    GroupTeacherName: string teacherName = Console.ReadLine();
-        if (!regex.IsMatch(teacherName))
+        else
         {
-            CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of teacher name!");
-            goto GroupTeacherName;
+
+
+            CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new group name: ");
+        GroupName: string groupName = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(groupName))
+            {
+                if (!regex1.IsMatch(groupName))
+                {
+                    CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid group name format!");
+                    goto GroupName;
+                }
+            }
+
+
+            CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new group's teacher: ");
+        GroupTeacherName: string teacherName = Console.ReadLine();
+            if (!regex.IsMatch(teacherName))
+            {
+                CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of teacher name!");
+                goto GroupTeacherName;
+            }
+
+            CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new group's room: ");
+        Room: string room = Console.ReadLine();
+            int roomNum;
+            bool isConvertRoom = int.TryParse(room, out roomNum);
+            if (!isConvertRoom)
+            {
+                CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of room number!");
+                goto Room;
+            }
+            if (roomNum < 0)
+            {
+                CustomHelper.WriteLine(ConsoleColor.DarkRed, "Room must be positive!");
+                goto Room;
+            }
+
+            CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new group's capacity: ");
+        Capacity: string capacity = Console.ReadLine();
+            int capacityNum;
+            bool isConvertCapacity = int.TryParse(capacity, out capacityNum);
+            if (!isConvertCapacity)
+            {
+                CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of capacity!");
+                goto Capacity;
+            }
+            if (capacityNum < 0)
+            {
+                CustomHelper.WriteLine(ConsoleColor.DarkRed, "Capacity must be positive!");
+                goto Capacity;
+            }
+
+            Domain.Models.Group group = new()
+            {
+                Name = groupName,
+                TeacherName = teacherName,
+                RoomNumber = roomNum,
+                Capacity = capacityNum
+            };
+            try
+            {
+                _groupService.Update(idNum, group);
+                CustomHelper.WriteLine(ConsoleColor.DarkGreen, "Group updated!");
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
-
-        CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new group's room: ");
-    Room: string room = Console.ReadLine();
-        int roomNum;
-        bool isConvertRoom = int.TryParse(room, out roomNum);
-        if (!isConvert)
-        {
-            CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of room number!");
-            goto Room;
-        }
-        if (roomNum < 0)
-        {
-            CustomHelper.WriteLine(ConsoleColor.DarkRed, "Age must be positive!");
-            goto Room;
-        }
-
-        CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new group's capacity: ");
-    Capacity: string capacity = Console.ReadLine();
-        int capacityNum;
-        bool isConvertCapacity = int.TryParse(capacity, out capacityNum);
-        if (!isConvertCapacity)
-        {
-            CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of capacity!");
-            goto Capacity;
-        }
-        if (capacityNum < 0)
-        {
-            CustomHelper.WriteLine(ConsoleColor.DarkRed, "Age must be positive!");
-            goto Capacity;
-        }
-
-        Domain.Models.Group group = new()
-        {
-            Name = groupName,
-            TeacherName = teacherName,
-            RoomNumber = roomNum,
-            Capacity = capacityNum
-        };
-
-        _groupService.Update(idNum, group);
-        CustomHelper.WriteLine(ConsoleColor.DarkGreen, "Group succesfully updated");
     }
 
     public void Delete()
@@ -173,9 +198,7 @@ public class GroupController
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Id must be positive!");
             goto Id;
         }
-
         _groupService.Delete(idNum);
-        CustomHelper.WriteLine(ConsoleColor.DarkGreen, "Group succesfully deleted");
 
     }
 
@@ -215,7 +238,7 @@ public class GroupController
         Regex regex = new Regex("^[A-Za-zƏəÖöÜüİıŞşÇçĞğ]+$");
         CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group's teacher: ");
     TeacherName: string teacher = Console.ReadLine();
-        if (string.IsNullOrWhiteSpace(teacher) && regex.IsMatch(teacher))
+        if (string.IsNullOrWhiteSpace(teacher) || !regex.IsMatch(teacher))
         {
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of teacher name!");
             goto TeacherName;

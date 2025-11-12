@@ -2,6 +2,7 @@
 using CourseApp.Repository.Context;
 using CourseApp.Repository.Repositories.Interfaces;
 using CourseApp.Service.Exceptions;
+using CourseApp.Service.Services.Helpers;
 using CourseApp.Service.Services.Interfaces;
 
 namespace CourseApp.Service.Services.Implementations;
@@ -39,9 +40,15 @@ public class GroupService : IGroupService
         {
             Group group = CourseDbContext.Groups.Find(G => G.Id == id);
             if (group is null)
+            {
                 throw new NotFoundException("Group not found");
+            }
 
-            _groupRepository.Delete(id);
+            else
+            {
+                _groupRepository.Delete(id);
+                CustomHelper.WriteLine(ConsoleColor.DarkGreen, "Group succesfully deleted");
+            }
         }
         catch (Exception ex)
         {
@@ -123,10 +130,9 @@ public class GroupService : IGroupService
             if (existName is not null)
                 throw new DuplicateException("Group already exist");
 
-
             _groupRepository.Update(id, group);
-
         }
+
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
