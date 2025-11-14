@@ -88,7 +88,10 @@ public class GroupService : IGroupService
 
     public List<Group> GetAllByTeacher(string teacherName)
     {
-        List<Group> groups = _groupRepository.GetAll(G => (G.TeacherName ?? string.Empty).ToLower().Trim().StartsWith(teacherName.ToLower().Trim()));
+        List<Group> groups = _groupRepository.GetAll(G =>
+        (G.TeacherName ?? string.Empty)
+            .Trim()
+            .Contains(teacherName.Trim(), StringComparison.OrdinalIgnoreCase));
         try
         {
             if (groups.Count is 0)
@@ -120,19 +123,25 @@ public class GroupService : IGroupService
     public void Update(int id, Group group)
     {
         Group exist = CourseDbContext.Groups.Find(G => G.Id == id);
-        Group existName = CourseDbContext.Groups.Find(G => G.Name.Trim().ToLower() == group.Name.Trim().ToLower());
 
         try
         {
             if (exist is null)
-                throw new NotFoundException("Group not found");
+                throw new NotFoundException("Group not found!");
 
-            if (existName is not null)
-                throw new DuplicateException("Group already exist");
+            
+            if (!string.IsNullOrWhiteSpace(group.Name))
+            {
+                Group existName = CourseDbContext.Groups.Find(G =>
+                    G.Name.Trim().ToLower() == group.Name.Trim().ToLower() && G.Id != id);
+
+                if (existName is not null)
+                    throw new DuplicateException("Group name already exists!");
+            }
 
             _groupRepository.Update(id, group);
+            
         }
-
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);

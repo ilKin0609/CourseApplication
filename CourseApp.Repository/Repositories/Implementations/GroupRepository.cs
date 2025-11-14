@@ -9,6 +9,7 @@ public class GroupRepository : IGroupRepository
     public void Create(Group entity)
     {
         CourseDbContext.Groups.Add(entity);
+        entity.CreatedAt = DateTime.UtcNow;
     }
 
     public void Delete(int id)
@@ -40,34 +41,37 @@ public class GroupRepository : IGroupRepository
     public void Update(int id, Group entity)
     {
         Group group = CourseDbContext.Groups.Find(St => St.Id == id);
-        int count = 0;
+        if (group is null) return;
+
+        bool updated = false;
+
         if (!string.IsNullOrWhiteSpace(entity.Name))
         {
             group.Name = entity.Name;
-            count++;
+            updated = true;
         }
 
         if (!string.IsNullOrWhiteSpace(entity.TeacherName))
         {
             group.TeacherName = entity.TeacherName;
-            count++;
+            updated = true;
         }
 
         if (entity.RoomNumber != 0)
         {
             group.RoomNumber = entity.RoomNumber;
-            count++;
+            updated = true;
         }
 
         if (entity.Capacity != 0)
         {
             group.Capacity = entity.Capacity;
-            count++;
+            updated = true;
         }
-        if(count > 0)
+
+        if (updated)
         {
             group.UpdatedAt = DateTime.Now;
-            count = 0;
         }
     }
 }

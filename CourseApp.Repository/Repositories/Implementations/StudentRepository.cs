@@ -9,6 +9,7 @@ public class StudentRepository : IStudentRepository
     public void Create(Student entity)
     {
         CourseDbContext.Students.Add(entity);
+        entity.CreatedAt = DateTime.Now;
     }
 
     public void Delete(int id)
@@ -54,21 +55,29 @@ public class StudentRepository : IStudentRepository
             count++;
         }
 
-        if (entity.Age != 0 && entity.Age > 5 && entity.Age < 55)
+        if (entity.Age > 5 && entity.Age < 55)
         {
             student.Age = entity.Age;
             count++;
         }
 
 
-        if (!string.IsNullOrWhiteSpace(entity.StuGroup.Name))
+        if (entity.StuGroup is not null && !string.IsNullOrWhiteSpace(entity.StuGroup.Name))
         {
-            Group group = CourseDbContext.Groups.Find(G => G.Name.Trim().ToLower() == entity.StuGroup.Name.Trim().ToLower());
+            Group? group = CourseDbContext.Groups.Find(
+                G => G.Name.Trim().ToLower() == entity.StuGroup.Name.Trim().ToLower()
+            );
 
             if (group is not null)
             {
                 student.StuGroup = group;
                 count++;
+            }
+            else
+            {
+                Console.WriteLine(ConsoleColor.DarkRed);
+                Console.WriteLine("Group not found, group was not changed.");
+                Console.ResetColor();
             }
 
         }
@@ -76,7 +85,7 @@ public class StudentRepository : IStudentRepository
         if (count > 0)
         {
             student.UpdatedAt = DateTime.Now;
-            count = 0;
+            
         }
     }
 }

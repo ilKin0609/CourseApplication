@@ -20,25 +20,32 @@ public class GroupController
     {
         Regex regex = new Regex("^[A-Za-zƏəÖöÜüİıŞşÇçĞğ]+$");
         Regex regex1 = new Regex(@"^[a-zA-Z0-9\s]+$");
+        CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group name (or write 'Exit' to cancel): ");
 
-        CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group name: ");
     GroupName: string groupName = Console.ReadLine();
+        if (groupName.Trim().Equals("exit", StringComparison.OrdinalIgnoreCase))
+            return;
         if (string.IsNullOrWhiteSpace(groupName) || !regex1.IsMatch(groupName))
         {
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of group name!");
             goto GroupName;
         }
 
-        CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group's teacher: ");
+        CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group's teacher (or write 'Exit' to cancel): ");
     TeacherName: string teacher = Console.ReadLine();
-        if (string.IsNullOrWhiteSpace(teacher) || !regex.IsMatch(teacher))
+        if (teacher.Trim().Equals("exit", StringComparison.OrdinalIgnoreCase))
+            return;
+        Regex regexTeacher = new Regex("^[A-Za-zƏəÖöÜüİıŞşÇçĞğ\\s]+$", RegexOptions.IgnoreCase);
+        if (string.IsNullOrWhiteSpace(teacher) || !regexTeacher.IsMatch(teacher))
         {
             CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of teacher name!");
             goto TeacherName;
         }
 
-        CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group's room: ");
+        CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group's room (or write 'Exit' to cancel): ");
     Room: string room = Console.ReadLine();
+        if (room.Trim().Equals("exit", StringComparison.OrdinalIgnoreCase))
+            return;
         int roomNum;
         bool isConvert = int.TryParse(room, out roomNum);
         if (!isConvert)
@@ -52,8 +59,10 @@ public class GroupController
             goto Room;
         }
 
-        CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group's capacity: ");
+        CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group's capacity (or write 'Exit' to cancel): ");
     Capacity: string capacity = Console.ReadLine();
+        if (capacity.Trim().Equals("exit", StringComparison.OrdinalIgnoreCase))
+            return;
         int capacityNum;
         bool isConvertCapacity = int.TryParse(capacity, out capacityNum);
         if (!isConvertCapacity)
@@ -75,110 +84,121 @@ public class GroupController
             Capacity = capacityNum
         };
         _groupService.Create(group);
-        CustomHelper.WriteLine(ConsoleColor.DarkGreen, "Group succesfully created");
+        //CustomHelper.WriteLine(ConsoleColor.DarkGreen, "Group succesfully created");
+
+        //try
+        //{
+        //    _groupService.Create(group);
+        //    CustomHelper.WriteLine(ConsoleColor.DarkGreen, "Group successfully created!");
+        //}
+        //catch (Exception ex)
+        //{
+        //    CustomHelper.WriteLine(ConsoleColor.DarkRed, ex.Message);
+        //}
 
     }
 
     public void Update()
     {
-        CustomHelper.WriteLine(ConsoleColor.DarkCyan, "If you want to exit, write - Exit ");
-        Regex regex = new Regex("^[A-Za-zƏəÖöÜüİıŞşÇçĞğ]*$");
+        CustomHelper.WriteLine(ConsoleColor.DarkCyan, "If you want to exit, write - Exit");
 
-        Regex regex1 = new Regex(@"^[a-zA-Z0-9\s]*$");
+        Regex regexTeacher = new Regex("^[A-Za-zƏəÖöÜüİıŞşÇçĞğ\\s]+$", RegexOptions.IgnoreCase);
+        Regex regexGroup = new Regex(@"^[a-zA-Z0-9\s]*$");
+
+        
         CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group id: ");
-    Id: string id = Console.ReadLine();
-        int idNum;
-        if (id == "Exit")
-        {
+    Id:
+        string id = Console.ReadLine();
+        if (id.Trim().Equals("exit", StringComparison.OrdinalIgnoreCase))
             return;
-        }
-        bool isConvert = int.TryParse(id, out idNum);
-        if (!isConvert)
+
+        if (!int.TryParse(id, out int idNum) || idNum < 0)
         {
-            CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of id!");
+            CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid positive id!");
             goto Id;
         }
-        if (idNum < 0)
-        {
-            CustomHelper.WriteLine(ConsoleColor.DarkRed, "Id must be positive!");
-            goto Id;
-        }
-        Domain.Models.Group groupExist = _groupService.GetById(idNum);
+
+        var groupExist = _groupService.GetById(idNum);
         if (groupExist is null)
         {
-            CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid group id: ");
+            CustomHelper.WriteLine(ConsoleColor.DarkRed, "Group not found!");
             goto Id;
         }
-        else
+
+        
+        CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new group name (or leave empty to keep old): ");
+    GroupName: string groupName = Console.ReadLine();
+        if (groupName.Trim().Equals("exit", StringComparison.OrdinalIgnoreCase))
+            return;
+
+        if (!string.IsNullOrWhiteSpace(groupName) && !regexGroup.IsMatch(groupName))
         {
+            CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid group name format!");
+            goto GroupName;
+        }
 
+        
+        CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new group's teacher (or leave empty to keep old): ");
+    Teacher: string teacherName = Console.ReadLine();
+        if (teacherName.Trim().Equals("exit", StringComparison.OrdinalIgnoreCase))
+            return;
 
-            CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new group name: ");
-        GroupName: string groupName = Console.ReadLine();
-            if (!string.IsNullOrWhiteSpace(groupName))
+        if (!string.IsNullOrWhiteSpace(teacherName) && !regexTeacher.IsMatch(teacherName))
+        {
+            CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of teacher name!");
+            goto Teacher;
+        }
+
+        
+        CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new group's room (or leave empty to keep old): ");
+    Room: string room = Console.ReadLine();
+        if (room.Trim().Equals("exit", StringComparison.OrdinalIgnoreCase))
+            return;
+
+        int? roomNum = null;
+        if (!string.IsNullOrWhiteSpace(room))
+        {
+            if (!int.TryParse(room, out int temp) || temp < 0)
             {
-                if (!regex1.IsMatch(groupName))
-                {
-                    CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid group name format!");
-                    goto GroupName;
-                }
-            }
-
-
-            CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new group's teacher: ");
-        GroupTeacherName: string teacherName = Console.ReadLine();
-            if (!regex.IsMatch(teacherName))
-            {
-                CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of teacher name!");
-                goto GroupTeacherName;
-            }
-
-            CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new group's room: ");
-        Room: string room = Console.ReadLine();
-            int roomNum;
-            bool isConvertRoom = int.TryParse(room, out roomNum);
-            if (!isConvertRoom)
-            {
-                CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of room number!");
+                CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid positive room number!");
                 goto Room;
             }
-            if (roomNum < 0)
-            {
-                CustomHelper.WriteLine(ConsoleColor.DarkRed, "Room must be positive!");
-                goto Room;
-            }
+            roomNum = temp;
+        }
 
-            CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new group's capacity: ");
-        Capacity: string capacity = Console.ReadLine();
-            int capacityNum;
-            bool isConvertCapacity = int.TryParse(capacity, out capacityNum);
-            if (!isConvertCapacity)
+        
+        CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter new group's capacity (or leave empty to keep old): ");
+    Capacity: string capacity = Console.ReadLine();
+        if (capacity.Trim().Equals("exit", StringComparison.OrdinalIgnoreCase))
+            return;
+
+        int? capacityNum = null;
+        if (!string.IsNullOrWhiteSpace(capacity))
+        {
+            if (!int.TryParse(capacity, out int temp) || temp < 0)
             {
-                CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid type of capacity!");
+                CustomHelper.WriteLine(ConsoleColor.DarkRed, "Enter valid positive capacity!");
                 goto Capacity;
             }
-            if (capacityNum < 0)
-            {
-                CustomHelper.WriteLine(ConsoleColor.DarkRed, "Capacity must be positive!");
-                goto Capacity;
-            }
+            capacityNum = temp;
+        }
 
-            Domain.Models.Group group = new()
-            {
-                Name = groupName,
-                TeacherName = teacherName,
-                RoomNumber = roomNum,
-                Capacity = capacityNum
-            };
-            try
-            {
-                _groupService.Update(idNum, group);
-                CustomHelper.WriteLine(ConsoleColor.DarkGreen, "Group updated!");
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+        
+        Domain.Models.Group group = new()
+        {
+            Name = string.IsNullOrWhiteSpace(groupName) ? null : groupName,
+            TeacherName = string.IsNullOrWhiteSpace(teacherName) ? null : teacherName,
+            RoomNumber = roomNum ?? 0,
+            Capacity = capacityNum ?? 0
+        };
+
+        try
+        {
+            _groupService.Update(idNum, group);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
         }
     }
 
@@ -186,6 +206,9 @@ public class GroupController
     {
         CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group id: ");
     Id: string id = Console.ReadLine();
+
+        if (id.Trim().Equals("exit", StringComparison.OrdinalIgnoreCase))
+            return;
         int idNum;
         bool isConvert = int.TryParse(id, out idNum);
         if (!isConvert)
@@ -230,12 +253,14 @@ public class GroupController
         }
 
         var result = _groupService.GetById(idNum);
-        Console.WriteLine($"Id: {result.Id} Name: {result.Name} TeacherName: {result.TeacherName} Room: {result.RoomNumber} Capacity: {result.Capacity}");
+        if (result is not null)
+            Console.WriteLine($"Id: {result.Id} Name: {result.Name} TeacherName: {result.TeacherName} Room: {result.RoomNumber} Capacity: {result.Capacity}");
     }
 
     public void GetByTeacherName()
     {
-        Regex regex = new Regex("^[A-Za-zƏəÖöÜüİıŞşÇçĞğ]+$");
+        
+        Regex regex = new Regex("^[A-Za-zƏəÖöÜüİıŞşÇçĞğ ]+$", RegexOptions.IgnoreCase);
         CustomHelper.WriteLine(ConsoleColor.Cyan, "Enter group's teacher: ");
     TeacherName: string teacher = Console.ReadLine();
         if (string.IsNullOrWhiteSpace(teacher) || !regex.IsMatch(teacher))
@@ -244,7 +269,7 @@ public class GroupController
             goto TeacherName;
         }
 
-        List<Domain.Models.Group> groups = _groupService.GetAllByTeacher(teacher);
+        List<Domain.Models.Group> groups = _groupService.GetAllByTeacher(teacher.Trim().ToLower());
 
         foreach (var group in groups)
         {

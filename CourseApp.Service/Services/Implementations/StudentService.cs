@@ -22,6 +22,9 @@ public class StudentService : IStudentService
             if (student is null)
                 throw new NullException("Student cannot be null!");
 
+            if (string.IsNullOrWhiteSpace(GroupName))
+                throw new ValidTypeException("Group name cannot be empty!");
+
             Group group = CourseDbContext.Groups.Find(G => G.Name.Trim().ToLower() == GroupName.Trim().ToLower());
             if (group is null)
                 throw new NotFoundException("Group not found!");
@@ -49,8 +52,13 @@ public class StudentService : IStudentService
             if (student is null)
                 throw new NotFoundException("Student not found");
 
+            if (student.StuGroup is not null)
+            {
+                student.StuGroup.Capacity++;
+            }
+
             _studentRepository.Delete(id);
-            student.StuGroup.Capacity++;
+            
         }
         catch (Exception ex)
         {
@@ -173,16 +181,17 @@ public class StudentService : IStudentService
 
     public void Update(int id, Student student)
     {
-        Student exist = CourseDbContext.Students.Find(St => St.Id == id);
+        
         
         try
         {
-            
+            if (student is null)
+                throw new NullException("Student cannot be null");
+
+            Student exist = CourseDbContext.Students.Find(St => St.Id == id);
             if (exist is null)
                 throw new NotFoundException("Student not found");
 
-            if (student is null)
-                throw new NullException("Student cannot be null");
 
             _studentRepository.Update(id, student);
 
